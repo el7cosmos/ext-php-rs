@@ -25,7 +25,7 @@ skeptic = "0.13"
 
 [build-dependencies]
 anyhow = "1"
-bindgen = "0.70"
+bindgen = { version = "0.70", default-features = false }
 cc = "1.0"
 skeptic = "0.13"
 
@@ -36,6 +36,12 @@ ureq = { version = "3.0", features = [
 ], default-features = false }
 native-tls = "0.2"
 zip = "4.0"
+
+[target.'cfg(not(target_env = "musl"))'.build-dependencies]
+bindgen = { version = "0.70", default-features = false, features = ["runtime"] }
+
+[target.'cfg(target_env = "musl")'.build-dependencies]
+bindgen = { version = "0.70", default-features = false, features = ["static"] }
 
 [features]
 closure = []
